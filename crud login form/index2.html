@@ -1,0 +1,133 @@
+ 
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<link rel="stylesheet" href="styles.css">
+
+
+<Body background="https://images.unsplash.com/photo-1554034483-04fda0d3507b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8c29mdCUyMGNvbG9yfGVufDB8fDB8fA%3D%3D&w=1000&q=80"> 
+<div class="container login-container">
+    <div class="row">
+        <div class="col-md-6 login-form-1">
+            <h3>Login form</h3>
+            
+
+    <input type="hidden" id="hfRowIndex" value="" />
+    <table class="table">
+        <tr>
+            <td>Name</td>
+            <td>
+                <input type="text" name="Name" id="txtName" value="" />
+            </td>
+        </tr>
+        <tr>
+            <td>Phone</td>
+            <td>
+                <input type="text" name="Phone" id="txtPhone" value="" />
+            </td>
+        </tr>
+        <tr>
+            <td>Email</td>
+            <td>
+                <input type="text" name="Email" id="txtEmail" value="" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <button type='button' id='btnAdd'>Add</button>
+                <button type='button' id='btnUpdate' style="display: none;">Update</button>
+            </td>
+            <td>
+                <button type='button' id='btnClear'>Clear</button>
+            </td>
+        </tr>
+    </table>
+</div>
+<div class="col-md-6 login-form-2">
+    <h3>Crud table</h3>
+    <body>
+    <table id="tblCustomers" class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Phone</th>
+                <th>Email</th>
+                 <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('#btnAdd').on('click', function () {
+                var Phone, Email, Name;
+                Name = $("#txtName").val();
+                Phone = $("#txtPhone").val();
+                Email = $("#txtEmail").val();
+ 
+                var edit = "<a class='edit' href='JavaScript:void(0);' >Edit</a>";
+                var Delete = "<a class='Delete' href='JavaScript:void(0);' >Delete</a>";
+ 
+                if (Phone == "" || Email == "") {
+                    alert("Name and Country fields required!");
+                } else {
+                    var table = "<tr><td>" + Name + "</td><td>" + Phone + "</td><td>" + Email + "</td><td>" + edit + "<td></td>" + Delete + "<tr></tr>" ;
+                    $("#tblCustomers").append(table);
+                }
+                Name = $("#txtName").val("");
+                Phone = $("#txtPhone").val("");
+                Email = $("#txtEmail").val("");
+                Clear();
+            });
+ 
+            //write code when sir say to performe update
+ $('#btnUpdate').on('click', function () {
+var Phone, Email, Name;
+Name = $("#txtName").val();
+Phone = $("#txtPhone").val();
+Email = $("#txtEmail").val();
+
+$('#tblCustomers tbody tr').eq($('#hfRowIndex').val()).find('td').eq(0).html(Name);
+$('#tblCustomers tbody tr').eq($('#hfRowIndex').val()).find('td').eq(1).html(Phone);
+$('#tblCustomers tbody tr').eq($('#hfRowIndex').val()).find('td').eq(2).html(Email);
+
+$('#btnAdd').show();
+$('#btnUpdate').hide();
+Clear();
+});
+
+$("#tblCustomers").on("click", ".edit", function (e) {
+                                    var row = $(this).closest('tr');
+                                    $('#hfRowIndex').val($(row).index());
+                                    var td = $(row).find("td");
+                                   
+                                    $('#txtName').val($(td).eq(0).html());
+                                    $('#txtPhone').val($(td).eq(1).html());
+                                    $('#txtEmail').val($(td).eq(2).html());
+                                    $('#btnAdd').hide();
+                                    $('#btnUpdate').show();
+                                });
+});
+            //write code when sir say to performe Delete
+$("#tblCustomers").on("click", ".Delete", function (e) {
+                                    if (confirm("Are you sure want to Delete this record!")) {
+                                        $(this).closest('tr').remove();
+                                    } else {
+                                        e.preventDefault();
+                                    }
+                                });
+
+        $('#btnClear').on('click', function () {
+                                    Clear();
+                                });
+                     
+
+//function for clere fields
+        function Clear() {
+            $("#txtName").val("");
+            $("#txtPhone").val("");
+            $("#txtEmail").val("");
+            $("#hfRowIndex").val("");
+        }
+    </script>
+</div>
